@@ -1,20 +1,21 @@
 {{ $context := . }}
+{{ $emptyStr := "all" }}
 
 <div class="d-grid gap-2">
-        <a 
-    {{ if eq $context.SelectedCategory 0}}
-        class="btn btn-primary" 
-    {{ else }}
-        class="btn btn-outline-primary"     
-    {{ end }}
-        href="{{ call $context.CategoryUrlFunc 0 }}">All</a>    
-    {{ range $context.Categories }}
-            <a 
-        {{ if eq $context.SelectedCategory .ID}}
-            class="btn btn-primary" 
-        {{ else }}
-            class="btn btn-outline-primary" 
-        {{ end }}
-            href="{{ call $context.CategoryUrlFunc .ID }}">{{ .CategoryName }}</a>            
+    <a
+            {{ if eq $context.SelectedProvider $emptyStr }}
+            class="btn btn-primary"
+            {{ else }}
+            class="btn btn-outline-primary"
+            {{ end }}
+            href="{{ call $context.ProviderUrlFunc $emptyStr }}">All</a>
+    {{ range $context.Providers }}
+    <a
+            {{ if eq $context.SelectedProvider $emptyStr }}
+            class="btn btn-primary"
+            {{ else }}
+            class="btn btn-outline-primary"
+            {{ end }}
+            href="{{ call $context.ProviderUrlFunc $context.SelectedProvider }}">{{ $context.SelectedProvider }}</a>
     {{ end }}
 </div>
