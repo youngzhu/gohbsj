@@ -16,6 +16,7 @@ type StaticFileComponent struct {
 func (sfc *StaticFileComponent) Init() {
 	sfc.urlPrefix = "/resources/"
 	sfc.stdLibHandler = http.StripPrefix(sfc.urlPrefix,
+		// 不知道为什么，这个.很重要
 		http.FileServer(http.Dir("./resources")))
 }
 
