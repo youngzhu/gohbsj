@@ -34,7 +34,7 @@ func createPipeline() service.RequestPipeline {
 		&basic.ServicesComponent{},
 		&basic.LoggingComponent{},
 		&basic.ErrorComponent{},
-		//&basic.StaticFileComponent{},
+		&basic.StaticFileComponent{},
 		service.NewRouter(
 			service.HandlerEntry{"", service.ProductHandler{}},
 			service.HandlerEntry{"", service.ProviderHandler{}},

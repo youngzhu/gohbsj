@@ -21,7 +21,7 @@ func Serve(pl RequestPipeline, logger logging.Logger) *sync.WaitGroup {
 
 	adaptor := pipelineAdaptor{RequestPipeline: pl}
 
-	httpPort := 5000
+	httpPort := 8000
 	logger.Debugf("Starting HTTP server on port %v", httpPort)
 	wg.Add(1)
 	go func() {
