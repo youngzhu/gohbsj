@@ -1,21 +1,21 @@
 {{ $context := . }}
-{{ $emptyStr := "all" }}
+{{ $allProvider := "" }}
 
 <div class="d-grid gap-2">
     <a
-            {{ if eq $context.SelectedProvider $emptyStr }}
+            {{ if eq $context.SelectedProvider $allProvider }}
             class="btn btn-primary"
             {{ else }}
             class="btn btn-outline-primary"
             {{ end }}
-            href="{{ call $context.ProviderUrlFunc $emptyStr }}">All</a>
+            href="{{ call $context.ProviderUrlFunc $allProvider }}">All</a>
     {{ range $context.Providers }}
     <a
-            {{ if eq $context.SelectedProvider $emptyStr }}
+            {{ if eq $context.SelectedProvider . }}
             class="btn btn-primary"
             {{ else }}
             class="btn btn-outline-primary"
             {{ end }}
-            href="{{ call $context.ProviderUrlFunc $context.SelectedProvider }}">{{ $context.SelectedProvider }}</a>
+            href="{{ call $context.ProviderUrlFunc . }}">{{ . }}</a>
     {{ end }}
 </div>

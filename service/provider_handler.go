@@ -1,8 +1,12 @@
 package service
 
-import "log"
+import (
+	"log"
+	"youngzy.com/gohbsj/search"
+)
 
 type ProviderHandler struct {
+	search.Searcher
 	URLGenerator
 }
 
@@ -13,11 +17,12 @@ type categoryTemplateContext struct {
 }
 
 func (handler ProviderHandler) GetButtons(selected string) ActionResult {
+	handler.Searcher.Run("")
+
 	return NewTemplateAction("provider_buttons.html",
 		categoryTemplateContext{
-			Providers: []string{"all"},
-			//SelectedProvider: selected,
-			SelectedProvider: "all",
+			Providers:        handler.Searcher.GetProviders(),
+			SelectedProvider: selected,
 			ProviderUrlFunc:  handler.createProviderFilterFunction(),
 		})
 }

@@ -3,6 +3,7 @@ package main
 import (
 	"sync"
 	"youngzy.com/gohbsj/logging"
+	_ "youngzy.com/gohbsj/search/matcher"
 	"youngzy.com/gohbsj/service"
 	"youngzy.com/gohbsj/service/basic"
 	"youngzy.com/gohbsj/template"
@@ -38,7 +39,7 @@ func createPipeline() service.RequestPipeline {
 		service.NewRouter(
 			service.HandlerEntry{"", service.ProductHandler{}},
 			service.HandlerEntry{"", service.ProviderHandler{}},
-		).AddMethodAlias("/", service.ProductHandler.GetProducts, "01"),
+		).AddMethodAlias("/", service.ProductHandler.GetProducts, ""),
 		//.AddMethodAlias("/products[/]?[A-z0-9]*?",
 		//	handler.ProductHandler.GetProducts, 0, 1),
 	)
