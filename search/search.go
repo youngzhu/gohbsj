@@ -41,12 +41,12 @@ func Register(matcherID string, matcher Matcher) {
 	matchers[matcherID] = matcher
 }
 
-func (s *Searcher) GetProviders() (providers []string) {
-	aMap := map[string]string{}
+func (s *Searcher) GetProviders() (providers []model.Provider) {
+	aMap := map[string]model.Provider{}
 	for _, p := range s.result {
-		if _, ok := aMap[p.Provider]; !ok {
-			aMap[p.Provider] = p.Provider
-			providers = append(providers, p.Provider)
+		if _, ok := aMap[p.ProviderID]; !ok {
+			aMap[p.ProviderID] = *p.Provider
+			providers = append(providers, *p.Provider)
 		}
 	}
 	log.Println("providers:", len(providers))

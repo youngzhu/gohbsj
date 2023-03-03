@@ -2,6 +2,7 @@ package service
 
 import (
 	"log"
+	"youngzy.com/gohbsj/model"
 	"youngzy.com/gohbsj/search"
 )
 
@@ -10,8 +11,8 @@ type ProviderHandler struct {
 	URLGenerator
 }
 
-type categoryTemplateContext struct {
-	Providers        []string
+type providerTemplateContext struct {
+	Providers        []model.Provider
 	SelectedProvider string
 	ProviderUrlFunc  func(string) string
 }
@@ -20,7 +21,7 @@ func (handler ProviderHandler) GetButtons(selected string) ActionResult {
 	handler.Searcher.Run("")
 
 	return NewTemplateAction("provider_buttons.html",
-		categoryTemplateContext{
+		providerTemplateContext{
 			Providers:        handler.Searcher.GetProviders(),
 			SelectedProvider: selected,
 			ProviderUrlFunc:  handler.createProviderFilterFunction(),

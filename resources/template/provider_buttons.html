@@ -11,11 +11,11 @@
             href="{{ call $context.ProviderUrlFunc $allProvider }}">All</a>
     {{ range $context.Providers }}
     <a
-            {{ if eq $context.SelectedProvider . }}
+            {{ if eq $context.SelectedProvider .ProviderID }}
             class="btn btn-primary"
             {{ else }}
             class="btn btn-outline-primary"
             {{ end }}
-            href="{{ call $context.ProviderUrlFunc . }}">{{ . }}</a>
+            href="{{ call $context.ProviderUrlFunc .ProviderID }}">{{ .ProviderName }}</a>
     {{ end }}
 </div>
