@@ -16,16 +16,16 @@ type ProductTemplateContext struct {
 	SelectedProvider string
 }
 
-func (handler ProductHandler) GetProducts(provider string) ActionResult {
-	log.Println("provider:", provider)
+func (handler ProductHandler) GetProducts(providerID string) ActionResult {
+	log.Println("provider:", providerID)
 
 	handler.Searcher.Run("")
 
-	log.Println("products:", len(handler.Searcher.GetProducts()))
+	//log.Println("products:", len(handler.Searcher.GetProducts()))
 
 	return NewTemplateAction("product_list.html",
 		ProductTemplateContext{
-			Products:         handler.Searcher.GetProducts(),
-			SelectedProvider: provider,
+			Products:         handler.Searcher.GetProducts(providerID),
+			SelectedProvider: providerID,
 		})
 }

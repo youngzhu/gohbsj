@@ -53,6 +53,15 @@ func (s *Searcher) GetProviders() (providers []model.Provider) {
 	return
 }
 
-func (s *Searcher) GetProducts() []model.Product {
-	return s.result
+func (s *Searcher) GetProducts(providerID string) (products []model.Product) {
+	if providerID == "" {
+		return s.result
+	}
+
+	for _, product := range s.result {
+		if product.ProviderID == providerID {
+			products = append(products, product)
+		}
+	}
+	return
 }
