@@ -1,6 +1,7 @@
 package matcher
 
 import (
+	"strings"
 	"youngzy.com/gohbsj/model"
 	"youngzy.com/gohbsj/search"
 )
@@ -12,9 +13,16 @@ func init() {
 
 type fakeMatcher struct{}
 
-func (m fakeMatcher) Search(keywords string) ([]*model.Product, error) {
+func (m fakeMatcher) Search(searchTerm string) ([]*model.Product, error) {
+	var products []*model.Product
 
-	return fakeProducts, nil
+	for _, prod := range fakeProducts {
+		if strings.Contains(prod.Name, searchTerm) {
+			products = append(products, prod)
+		}
+	}
+
+	return products, nil
 }
 
 var fakeProducts = []*model.Product{

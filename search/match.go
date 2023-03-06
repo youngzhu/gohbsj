@@ -6,7 +6,7 @@ import (
 )
 
 type Matcher interface {
-	Search(keywords string) ([]*model.Product, error)
+	Search(searchTerm string) ([]*model.Product, error)
 }
 
 func match(searchTerm string,
