@@ -7,34 +7,36 @@ import (
 )
 
 type ProviderHandler struct {
-	search.Searcher
-	URLGenerator
+	Searcher     *search.Searcher
+	URLGenerator URLGenerator
 }
 
 type providerTemplateContext struct {
+	SearchTerm       string
 	Providers        []model.Provider
 	SelectedProvider string
 	ProviderUrlFunc  func(string) string
 }
 
-func (handler ProviderHandler) GetButtons(selected string) ActionResult {
-	handler.Searcher.Run("")
+func (handler ProviderHandler) GetButtons(selected, searchTerm string) ActionResult {
+	log.Println("ProviderHandler searchTerm:", searchTerm)
 
 	return NewTemplateAction("provider_buttons.html",
 		providerTemplateContext{
+			SearchTerm:       searchTerm,
 			Providers:        handler.Searcher.GetProviders(),
 			SelectedProvider: selected,
-			ProviderUrlFunc:  handler.createProviderFilterFunction(),
+			ProviderUrlFunc:  handler.createProviderFilterFunction(searchTerm),
 		})
 }
 
-func (handler ProviderHandler) createProviderFilterFunction() func(string) string {
+func (handler ProviderHandler) createProviderFilterFunction(searchTerm string) func(string) string {
 	return func(provider string) string {
-		url, err := handler.GenerateUrl(ProductHandler.GetProducts, provider)
+		url, err := handler.URLGenerator.GenerateUrl(ProductHandler.GetProducts, searchTerm, provider)
 		if err != nil {
 			panic(err)
 		}
-		log.Println(url)
+		//log.Println(url)
 		return url
 	}
 }

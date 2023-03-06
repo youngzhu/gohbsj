@@ -2,7 +2,7 @@
 
 {{ define "left_column" }}
     {{ $context := . }}
-    {{ handler "provider" "getbuttons" $context.SelectedProvider }}
+    {{ handler "provider" "getbuttons" $context.SelectedProvider $context.SearchTerm }}
 {{end}}
 
 {{ define "right_column" }}

@@ -3,6 +3,7 @@ package main
 import (
 	"sync"
 	"youngzy.com/gohbsj/logging"
+	"youngzy.com/gohbsj/search"
 	_ "youngzy.com/gohbsj/search/matcher"
 	"youngzy.com/gohbsj/service"
 	"youngzy.com/gohbsj/service/basic"
@@ -28,12 +29,12 @@ func registerServices() {
 		panic(err)
 	}
 
-	//err = service.AddSingleton(func() *search.Searcher {
-	//	return &search.Searcher{}
-	//})
-	//if err != nil {
-	//	panic(err)
-	//}
+	err = service.AddSingleton(func() *search.Searcher {
+		return &search.Searcher{}
+	})
+	if err != nil {
+		panic(err)
+	}
 }
 
 func createPipeline() service.RequestPipeline {
@@ -45,7 +46,7 @@ func createPipeline() service.RequestPipeline {
 		service.NewRouter(
 			service.HandlerEntry{"", service.ProductHandler{}},
 			service.HandlerEntry{"", service.ProviderHandler{}},
-		).AddMethodAlias("/", service.ProductHandler.GetProducts, "").
+		).AddMethodAlias("/", service.ProductHandler.GetProducts, "", "").
 			AddMethodAlias("/search", service.ProductHandler.PostSearch),
 		//.AddMethodAlias("/products[/]?[A-z0-9]*?",
 		//	handler.ProductHandler.GetProducts, 0, 1),

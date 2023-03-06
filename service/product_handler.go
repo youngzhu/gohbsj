@@ -7,7 +7,7 @@ import (
 )
 
 type ProductHandler struct {
-	Searcher     search.Searcher
+	Searcher     *search.Searcher
 	URLGenerator URLGenerator
 }
 
@@ -17,15 +17,16 @@ type ProductTemplateContext struct {
 	SelectedProvider string
 }
 
-func (handler ProductHandler) GetProducts(providerID string) ActionResult {
+func (handler ProductHandler) GetProducts(searchTerm, providerID string) ActionResult {
 	log.Println("provider:", providerID)
 
-	handler.Searcher.Run("")
+	//handler.Searcher.Run("")
 
 	//log.Println("products:", len(handler.Searcher.GetProducts()))
 
 	return NewTemplateAction("product_list.html",
 		ProductTemplateContext{
+			SearchTerm:       searchTerm,
 			Products:         handler.Searcher.GetProducts(providerID),
 			SelectedProvider: providerID,
 		})
