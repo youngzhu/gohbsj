@@ -26,13 +26,13 @@ func (handler ProviderHandler) GetButtons(selected, searchTerm string) ActionRes
 			SearchTerm:       searchTerm,
 			Providers:        handler.Searcher.GetProviders(),
 			SelectedProvider: selected,
-			ProviderUrlFunc:  handler.createProviderFilterFunction(searchTerm),
+			ProviderUrlFunc:  handler.createProviderFilterFunction(),
 		})
 }
 
-func (handler ProviderHandler) createProviderFilterFunction(searchTerm string) func(string) string {
+func (handler ProviderHandler) createProviderFilterFunction() func(string) string {
 	return func(provider string) string {
-		url, err := handler.URLGenerator.GenerateUrl(ProductHandler.GetProducts, searchTerm, provider)
+		url, err := handler.URLGenerator.GenerateUrl(ProductHandler.GetProducts, provider)
 		if err != nil {
 			panic(err)
 		}

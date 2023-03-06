@@ -17,16 +17,11 @@ type ProductTemplateContext struct {
 	SelectedProvider string
 }
 
-func (handler ProductHandler) GetProducts(searchTerm, providerID string) ActionResult {
-	log.Println("provider:", providerID)
-
-	//handler.Searcher.Run("")
-
-	//log.Println("products:", len(handler.Searcher.GetProducts()))
-
+func (handler ProductHandler) GetProducts(providerID string) ActionResult {
+	//log.Println("provider:", providerID)
 	return NewTemplateAction("product_list.html",
 		ProductTemplateContext{
-			SearchTerm:       searchTerm,
+			SearchTerm:       handler.Searcher.SearchTerm,
 			Products:         handler.Searcher.GetProducts(providerID),
 			SelectedProvider: providerID,
 		})
@@ -40,7 +35,8 @@ type SearchRef struct {
 func (handler ProductHandler) PostSearch(sr SearchRef) ActionResult {
 	log.Println("searchTerm:", sr.SearchTerm)
 
-	handler.Searcher.Run(sr.SearchTerm)
+	handler.Searcher.SearchTerm = sr.SearchTerm
+	handler.Searcher.Run()
 
 	return NewTemplateAction("product_list.html",
 		ProductTemplateContext{

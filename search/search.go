@@ -7,10 +7,12 @@ import (
 )
 
 type Searcher struct {
+	SearchTerm string
+
 	result []model.Product
 }
 
-func (s *Searcher) Run(searchTerm string) {
+func (s *Searcher) Run() {
 	prodChan := make(chan *model.Product)
 
 	var wg sync.WaitGroup
@@ -18,7 +20,7 @@ func (s *Searcher) Run(searchTerm string) {
 
 	for _, m := range matchers {
 		go func(matcher Matcher) {
-			match(searchTerm, matcher, prodChan)
+			match(s.SearchTerm, matcher, prodChan)
 			wg.Done()
 		}(m)
 	}

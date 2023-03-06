@@ -46,7 +46,7 @@ func createPipeline() service.RequestPipeline {
 		service.NewRouter(
 			service.HandlerEntry{"", service.ProductHandler{}},
 			service.HandlerEntry{"", service.ProviderHandler{}},
-		).AddMethodAlias("/", service.ProductHandler.GetProducts, "", "").
+		).AddMethodAlias("/", service.ProductHandler.GetProducts, "").
 			AddMethodAlias("/search", service.ProductHandler.PostSearch),
 		//.AddMethodAlias("/products[/]?[A-z0-9]*?",
 		//	handler.ProductHandler.GetProducts, 0, 1),
