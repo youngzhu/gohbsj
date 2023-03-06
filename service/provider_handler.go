@@ -12,7 +12,6 @@ type ProviderHandler struct {
 }
 
 type providerTemplateContext struct {
-	SearchTerm       string
 	Providers        []model.Provider
 	SelectedProvider string
 	ProviderUrlFunc  func(string) string
@@ -23,7 +22,6 @@ func (handler ProviderHandler) GetButtons(selected, searchTerm string) ActionRes
 
 	return NewTemplateAction("provider_buttons.html",
 		providerTemplateContext{
-			SearchTerm:       searchTerm,
 			Providers:        handler.Searcher.GetProviders(),
 			SelectedProvider: selected,
 			ProviderUrlFunc:  handler.createProviderFilterFunction(),
