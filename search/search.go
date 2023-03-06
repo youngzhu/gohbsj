@@ -31,9 +31,12 @@ func (s *Searcher) Run() {
 		close(prodChan)
 	}()
 
+	// 每次搜索，结果需要重置
+	var searchResult []model.Product
 	for p := range prodChan {
-		s.result = append(s.result, *p)
+		searchResult = append(searchResult, *p)
 	}
+	s.result = searchResult
 }
 
 var matchers = make(map[string]Matcher)
