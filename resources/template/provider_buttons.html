@@ -1,7 +1,9 @@
 {{ $context := . }}
 {{ $allProvider := "" }}
 
+{{ $providers := len .Providers }}
 <div class="d-grid gap-2">
+    {{ if gt $providers 0 }}
     <a
             {{ if eq $context.SelectedProvider $allProvider }}
             class="btn btn-primary"
@@ -9,6 +11,7 @@
             class="btn btn-outline-primary"
             {{ end }}
             href="{{ call $context.ProviderUrlFunc $allProvider }}">All</a>
+    {{ end }}
     {{ range $context.Providers }}
     <a
             {{ if eq $context.SelectedProvider .ProviderID }}
