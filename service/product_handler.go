@@ -31,6 +31,7 @@ func (handler ProductHandler) GetProducts(providerID string) ActionResult {
 			SelectedProvider: providerID,
 			Cost:             handler.Searcher.Cost.Seconds(),
 			Records:          handler.Searcher.Records,
+			Hit:              handler.Searcher.Hit,
 		})
 }
 
