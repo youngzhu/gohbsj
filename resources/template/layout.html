@@ -18,12 +18,14 @@
             <button type="submit" class="btn btn-warning">比价</button>
         </div>
     </form>
+    {{ if .Hit }}
     <div class="row p-0">
         <div class="col-2"></div>
         <div class="col-8 small text-muted">
             <small>&nbsp;&nbsp;共查出 {{ .Records }} 条记录，耗时 {{ printf "%.3f" .Cost }} 秒</small>
         </div>
     </div>
+    {{ end }}
     <div class="row m-1 p-1">
         <div id="sidebar" class="col-3">
             {{ template "left_column" . }}

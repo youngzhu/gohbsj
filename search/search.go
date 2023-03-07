@@ -14,6 +14,7 @@ type Searcher struct {
 
 	Cost    time.Duration // 耗时
 	Records int           // 搜索到的记录条数
+	Hit     bool          // 是否进行了搜索
 }
 
 func (s *Searcher) Run() {
@@ -46,6 +47,7 @@ func (s *Searcher) Run() {
 
 	s.Cost = time.Since(start)
 	s.Records = len(s.products)
+	s.Hit = true
 }
 
 var matchers = make(map[string]Matcher)
