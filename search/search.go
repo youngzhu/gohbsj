@@ -3,6 +3,7 @@ package search
 import (
 	"log"
 	"sync"
+	"time"
 	"youngzy.com/gohbsj/model"
 )
 
@@ -10,9 +11,14 @@ type Searcher struct {
 	SearchTerm string
 
 	result []model.Product
+
+	Cost time.Duration //耗时
+	// 记录条数
 }
 
 func (s *Searcher) Run() {
+	start := time.Now()
+
 	prodChan := make(chan *model.Product)
 
 	var wg sync.WaitGroup
@@ -37,6 +43,8 @@ func (s *Searcher) Run() {
 		searchResult = append(searchResult, *p)
 	}
 	s.result = searchResult
+
+	s.Cost = time.Since(start)
 }
 
 var matchers = make(map[string]Matcher)
