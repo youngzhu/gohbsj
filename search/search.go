@@ -10,10 +10,10 @@ import (
 type Searcher struct {
 	SearchTerm string
 
-	result []model.Product
+	products []model.Product
 
-	Cost time.Duration //耗时
-	// 记录条数
+	Cost    time.Duration // 耗时
+	Records int           // 搜索到的记录条数
 }
 
 func (s *Searcher) Run() {
@@ -42,9 +42,10 @@ func (s *Searcher) Run() {
 	for p := range prodChan {
 		searchResult = append(searchResult, *p)
 	}
-	s.result = searchResult
+	s.products = searchResult
 
 	s.Cost = time.Since(start)
+	s.Records = len(s.products)
 }
 
 var matchers = make(map[string]Matcher)
@@ -56,7 +57,7 @@ func Register(matcherID string, matcher Matcher) {
 
 func (s *Searcher) GetProviders() (providers []model.Provider) {
 	aMap := map[string]model.Provider{}
-	for _, p := range s.result {
+	for _, p := range s.products {
 		if _, ok := aMap[p.ProviderID]; !ok {
 			aMap[p.ProviderID] = *p.Provider
 			providers = append(providers, *p.Provider)
@@ -68,10 +69,10 @@ func (s *Searcher) GetProviders() (providers []model.Provider) {
 
 func (s *Searcher) GetProducts(providerID string) (products []model.Product) {
 	if providerID == "" {
-		return s.result
+		return s.products
 	}
 
-	for _, product := range s.result {
+	for _, product := range s.products {
 		if product.ProviderID == providerID {
 			products = append(products, product)
 		}

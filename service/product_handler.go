@@ -17,7 +17,8 @@ type ProductTemplateContext struct {
 	Products         []model.Product
 	SelectedProvider string
 
-	Cost float64
+	Cost    float64
+	Records int
 }
 
 func (handler ProductHandler) GetProducts(providerID string) ActionResult {
@@ -28,6 +29,7 @@ func (handler ProductHandler) GetProducts(providerID string) ActionResult {
 			Products:         handler.Searcher.GetProducts(providerID),
 			SelectedProvider: providerID,
 			Cost:             handler.Searcher.Cost.Seconds(),
+			Records:          handler.Searcher.Records,
 		})
 }
 
@@ -48,5 +50,6 @@ func (handler ProductHandler) PostSearch(sr SearchRef) ActionResult {
 			Products:         handler.Searcher.GetProducts(""),
 			SelectedProvider: "",
 			Cost:             handler.Searcher.Cost.Seconds(),
+			Records:          handler.Searcher.Records,
 		})
 }
