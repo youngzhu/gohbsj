@@ -1,6 +1,8 @@
 package main
 
 import (
+	"fmt"
+	"github.com/spf13/viper"
 	"sync"
 	"youngzy.com/gohbsj/logging"
 	"youngzy.com/gohbsj/search"
@@ -55,6 +57,13 @@ func createPipeline() service.RequestPipeline {
 
 func main() {
 	registerServices()
+
+	viper.SetConfigName(".gohbsj")
+	viper.AddConfigPath("$HOME")
+	if err := viper.ReadInConfig(); err == nil {
+		panic(fmt.Errorf("fatal error config file: %w", err))
+	}
+
 	results, err := service.Call(service.Serve, createPipeline())
 	if err == nil {
 		(results[0].(*sync.WaitGroup)).Wait()
