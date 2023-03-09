@@ -1,0 +1,10 @@
+{
+  "test": "ttt",
+  "system": {
+    "name": "货比三家-比价工具",
+    "version" : "0.1.0"
+  },
+  "faker": {
+    "info":"just for test"
+  }
+}

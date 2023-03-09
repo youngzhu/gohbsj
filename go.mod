@@ -2,7 +2,10 @@ module youngzy.com/gohbsj
 
 go 1.17
 
-require github.com/spf13/viper v1.15.0
+require (
+	github.com/mitchellh/go-homedir v1.1.0
+	github.com/spf13/viper v1.15.0
+)
 
 require (
 	github.com/fsnotify/fsnotify v1.6.0 // indirect

@@ -1,6 +1,8 @@
 package matcher
 
 import (
+	"github.com/spf13/viper"
+	"log"
 	"strings"
 	"youngzy.com/gohbsj/model"
 	"youngzy.com/gohbsj/search"
@@ -14,6 +16,10 @@ func init() {
 type fakeMatcher struct{}
 
 func (m fakeMatcher) Search(searchTerm string) ([]*model.Product, error) {
+	log.Println("===" + viper.GetString("faker.info") + "===")
+	log.Println("===" + viper.GetString("system.name") + "===")
+	log.Println("===" + viper.GetString("test") + "===")
+
 	var products []*model.Product
 
 	for _, prod := range fakeProducts {

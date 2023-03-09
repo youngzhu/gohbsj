@@ -55,14 +55,18 @@ func createPipeline() service.RequestPipeline {
 	)
 }
 
-func main() {
-	registerServices()
-
-	viper.SetConfigName(".gohbsj")
+func initConfig() {
+	viper.SetConfigName(".gohbsj") // 不要后缀
 	viper.AddConfigPath("$HOME")
-	if err := viper.ReadInConfig(); err == nil {
+	if err := viper.ReadInConfig(); err != nil {
 		panic(fmt.Errorf("fatal error config file: %w", err))
 	}
+	//log.Println("main===" + viper.GetString("test") + "===")
+}
+
+func main() {
+	initConfig()
+	registerServices()
 
 	results, err := service.Call(service.Serve, createPipeline())
 	if err == nil {
