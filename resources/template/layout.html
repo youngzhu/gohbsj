@@ -12,10 +12,10 @@
     <form method="POST" action="/search" class="row p-2">
         <div class="col-2"></div>
         <div class="col-8">
-            <input name="searchTerm" value="{{ .SearchTerm }}" class="form-control" placeholder="请输入产品名称">
+            <input name="searchTerm" value="{{ .SearchTerm }}" class="form-control" placeholder="请输入产品名称或型号">
         </div>
         <div class="col-2">
-            <button type="submit" class="btn btn-warning">比价</button>
+            <button type="submit" class="btn btn-warning">Go</button>
         </div>
     </form>
     {{ if .Hit }}
