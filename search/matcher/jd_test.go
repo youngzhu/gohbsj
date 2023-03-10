@@ -1,6 +1,8 @@
 package matcher
 
 import (
+	"fmt"
+	"net/url"
 	"os"
 	"testing"
 	"youngzy.com/gohbsj/model"
@@ -44,4 +46,30 @@ func TestJdMatcher_Search_parseHtml(t *testing.T) {
 	if firstItem.OriginalURL != want.OriginalURL {
 		t.Errorf("Product originalUrl, want: %s, got: %s", want.OriginalURL, firstItem.OriginalURL)
 	}
+}
+
+// 产品的<li>里面还有<li>，导致解析出的数据重复
+func TestJdMatcher_Search_parseHtml_duplicate(t *testing.T) {
+	f, err := os.Open("testdata/jd_duplicate.html")
+	if err != nil {
+		t.Fatal(err)
+	}
+	defer f.Close()
+
+	products, _ := parseJDHtml(f)
+	if len(products) != 30 {
+		t.Errorf("Products size, want: 30, got: %d", len(products))
+	}
+
+}
+
+func TestJdMatcher_Search_encode(t *testing.T) {
+	keyword := "华为 保时捷"
+
+	before := "https://search.jd.com/Search?%s&enc=utf-8&spm=a.0.0&pvid=eaeabb3cc04e4c07bf09da2684c471d8"
+
+	v := url.Values{}
+	v.Set("keyword", keyword)
+	after := fmt.Sprintf(before, v.Encode())
+	t.Log(after)
 }
