@@ -5,13 +5,12 @@ import (
 	"log"
 	"strings"
 	"youngzy.com/gohbsj/model"
-	"youngzy.com/gohbsj/search"
 )
 
-func init() {
-	var matcher fakeMatcher
-	search.Register("fake", matcher)
-}
+//func init() {
+//	var matcher fakeMatcher
+//	search.Register("fake", matcher)
+//}
 
 type fakeMatcher struct{}
 

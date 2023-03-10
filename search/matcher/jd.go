@@ -1,9 +1,12 @@
 package matcher
 
 import (
-	"io/ioutil"
+	"github.com/PuerkitoBio/goquery"
+	"io"
 	"log"
 	"net/http"
+	"regexp"
+	"strconv"
 	"strings"
 	"youngzy.com/gohbsj/model"
 	"youngzy.com/gohbsj/search"
@@ -55,19 +58,74 @@ func (m jdMatcher) Search(searchTerm string) ([]*model.Product, error) {
 	}
 	defer resp.Body.Close()
 	log.Println("resp.Status:", resp.Status)
-	respBody, err := ioutil.ReadAll(resp.Body)
+	//respBody, err := ioutil.ReadAll(resp.Body)
+	//if err != nil {
+	//	return nil, err
+	//}
+	//log.Println("respBody:", string(respBody))
+
+	return parseJDHtml(resp.Body)
+}
+
+func parseJDHtml(r io.Reader) ([]*model.Product, error) {
+	doc, err := goquery.NewDocumentFromReader(r)
 	if err != nil {
 		return nil, err
 	}
-	log.Println("respBody:", string(respBody))
 
-	var products []*model.Product
-
-	for _, prod := range fakeProducts {
-		if strings.Contains(prod.Name, searchTerm) {
-			products = append(products, prod)
+	var goodsList *goquery.Selection
+	doc.Find("div").Each(func(i int, s *goquery.Selection) {
+		id, _ := s.Attr("id")
+		if id == "J_goodsList" {
+			goodsList = s
+			return
 		}
+	})
+
+	var items []*goquery.Selection
+	goodsList.Find("li").Each(func(i int, s *goquery.Selection) {
+		items = append(items, s)
+	})
+
+	var name, vendor, url string
+	var price float64
+
+	products := make([]*model.Product, 0, len(items))
+	for _, item := range items {
+		item.Find("div").Each(func(i int, s *goquery.Selection) {
+			class, _ := s.Attr("class")
+
+			if strings.Contains(class, "price") {
+				priceStr := s.Find("i").Text()
+				price, _ = strconv.ParseFloat(priceStr, 64)
+				//fmt.Println("price:", price)
+			} else if strings.Contains(class, "name") {
+				text := s.Find("em").Text()
+				tag := regexp.MustCompile("<[^>]+>")
+				name = tag.ReplaceAllString(text, "")
+				//fmt.Println("text:", name)
+				//
+				url, _ = s.Find("a").Attr("href")
+				//fmt.Println("href:", url)
+
+			} else if strings.Contains(class, "shop") {
+				vendor = s.Find("a").Text()
+				//fmt.Println("shop:", vendor)
+			}
+		})
+		products = append(products, newJDProduct(name, price, vendor, url))
 	}
 
 	return products, nil
+}
+
+func newJDProduct(name string, price float64,
+	vendor, url string) *model.Product {
+	return &model.Product{
+		Name:        name,
+		Price:       price,
+		Vendor:      vendor,
+		OriginalURL: url,
+		Provider:    model.JD,
+	}
 }
