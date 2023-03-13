@@ -43,6 +43,8 @@ func (s *Searcher) Run() {
 	for p := range prodChan {
 		searchResult = append(searchResult, *p)
 	}
+	// 按价格排序
+	sortProductByPrice(searchResult)
 	s.products = searchResult
 
 	s.Cost = time.Since(start)
