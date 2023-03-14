@@ -11,12 +11,15 @@
     <div class="card card-outline-primary m-1 p-1">
         <div class="bg-faded p-1">
             <h4>
-                {{ .Name }}
+                <span class="d-inline-block text-truncate" style="max-width: 750px;">
+                    {{ .Name }}
+                </span>
                 <span class="badge rounded-pill bg-primary" style="float:right">
-                            <small>{{ printf "￥%.2f" .Price }}</small>
-                        </span>
+                    <small>{{ printf "￥%.2f" .Price }}</small>
+                </span>
             </h4>
         </div>
+        {{ .Vendor }}
         <a href="http://{{ .OriginalURL }}" class="link-secondary card-text p-1" target="_blank">{{ .OriginalURL }}</a>
     </div>
     {{ end }}
