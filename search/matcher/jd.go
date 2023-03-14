@@ -118,6 +118,8 @@ func parseJDHtml(r io.Reader) ([]*model.Product, error) {
 				//fmt.Println("text:", name)
 				//
 				url, _ = s.Find("a").Attr("href")
+				// 去掉开头的//
+				url = url[2:]
 				//fmt.Println("href:", url)
 
 			} else if strings.Contains(class, "shop") {
