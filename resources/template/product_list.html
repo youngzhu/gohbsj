@@ -14,7 +14,11 @@
                 <span class="d-inline-block text-truncate" style="max-width: 750px;">
                     {{ .Name }}
                 </span>
-                <span class="badge rounded-pill bg-primary" style="float:right">
+                <span class="badge rounded-pill bg-primary position-relative" style="float:right">
+                    <span class="position-absolute top-0 start-0 translate-middle badge rounded-pill bg-danger">
+                        JD
+                        <span class="visually-hidden">unread messages</span>
+                    </span>
                     <small>{{ printf "￥%.2f" .Price }}</small>
                 </span>
             </h4>
